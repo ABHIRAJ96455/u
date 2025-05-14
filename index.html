@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bestie Surprise</title>
+  <style>
+    body {
+      margin: 0;
+      background: pink;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      cursor: pointer;
+    }
+
+    .envelope {
+      width: 100%;
+      height: 100%;
+      background: #fff0f5;
+      border: 2px solid #e91e63;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(233, 30, 99, 0.4);
+      transition: transform 1s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .flap {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-bottom: 100px solid #fff0f5;
+      transition: top 1s;
+      z-index: 3;
+    }
+
+    .message {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 24px;
+      color: #e91e63;
+      opacity: 0;
+      transition: opacity 1s 1s;
+      z-index: 2;
+    }
+
+    .roses, .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .rose, .heart {
+      position: absolute;
+      top: -50px;
+      animation: fall linear infinite;
+    }
+
+    .heart {
+      color: #ff1493;
+      animation: fly linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes fly {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+    }
+
+    .open .envelope {
+      transform: rotateX(-120deg);
+    }
+
+    .open .flap {
+      top: -180px;
+    }
+
+    .open .message {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Music -->
+  <audio id="bgMusic" src="https://cdn.pixabay.com/audio/2023/03/06/audio_caf9b26b9c.mp3" autoplay loop></audio>
+
+  <div class="container" onclick="openEnvelope()">
+    <div class="flap"></div>
+    <div class="envelope"></div>
+    <div class="message">I love  you bestie 🥰💖</div>
+    <div class="roses" id="roses"></div>
+    <div class="hearts" id="hearts"></div>
+  </div>
+
+  <script>
+    function openEnvelope() {
+      const container = document.querySelector('.container');
+      container.classList.add('open');
+      createRoses();
+      createHearts();
+
+      const music = document.getElementById('bgMusic');
+      music.play().catch(() => {
+        // Autoplay might be blocked, user can tap to play
+        console.log("Music autoplay was blocked.");
+      });
+    }
+
+    function createRoses() {
+      const roseContainer = document.getElementById('roses');
+      for (let i = 0; i < 40; i++) {
+        const rose = document.createElement('div');
+        rose.classList.add('rose');
+        rose.innerText = '🌹';
+        rose.style.left = Math.random() * 100 + 'vw';
+        rose.style.animationDuration = 2 + Math.random() * 3 + 's';
+        rose.style.fontSize = 20 + Math.random() * 20 + 'px';
+        roseContainer.appendChild(rose);
+      }
+    }
+
+    function createHearts() {
+      const heartContainer = document.getElementById('hearts');
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerText = '💗';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.bottom = '0';
+        heart.style.animationDuration = 3 + Math.random() * 3 + 's';
+        heart.style.fontSize = 18 + Math.random() * 25 + 'px';
+        heartContainer.appendChild(heart);
+      }
+    }
+  </script>
+</body>
+</html>
